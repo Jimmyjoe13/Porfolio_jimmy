@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Futuriste</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Variables CSS */
+        :root {
+            --primary: #00f3ff;
+            --secondary: #7700ff;
+            --accent: #ff00c8;
+            --dark: #0a0a1a;
+            --light: #f0f0ff;
+            --card-bg: rgba(10, 10, 26, 0.7);
+            --glow: 0 0 10px var(--primary), 0 0 20px var(--primary), 0 0 30px var(--primary);
+        }
+
+        /* Reset et styles de base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Canvas pour les particules */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* Header et Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(10, 10, 26, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 243, 255, 0.2);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: var(--glow);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 30px;
+        }
+
+        nav ul li a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        nav ul li a:hover {
+            color: var(--primary);
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Sections principales */
+        section {
+            padding: 100px 50px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Section Hero */
+        .hero {
+            text-align: center;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: textGlow 3s infinite alternate;
+        }
+
+        @keyframes textGlow {
+            0% {
+                text-shadow: 0 0 10px var(--primary), 0 0 20px var(--primary);
+            }
+            100% {
+                text-shadow: 0 0 20px var(--secondary), 0 0 30px var(--secondary);
+            }
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            color: #b8b8ff;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.5);
+            margin-top: 20px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 25px rgba(0, 243, 255, 0.8);
+        }
+
+        /* Section À propos améliorée */
+        .about {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            opacity: 0.05;
+            animation: rotate 20s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .about-content {
+            flex: 1;
+            opacity: 0;
+            transform: translateX(-50px);
+            animation: fadeInLeft 1s ease forwards;
+            text-align: center;
+        }
+
+        @keyframes fadeInLeft {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .about h2 {
+            font-size: 2.8rem;
+            margin-bottom: 30px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            position: relative;
+            display: inline-block;
+        }
+
+        .about h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        .about p {
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #e0e0ff;
+            transition: all 0.3s ease;
+        }
+
+        .about p:hover {
+            color: var(--light);
+            transform: translateX(10px);
+        }
+
+        .about b {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .about i {
+            color: var(--accent);
+            font-style: italic;
+            display: block;
+            margin: 30px 0;
+            padding: 20px;
+            border-left: 4px solid var(--primary);
+            background: var(--card-bg);
+            border-radius: 0 10px 10px 0;
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 30px;
+            opacity: 0;
+            animation: fadeIn 1s ease 0.5s forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .skill {
+            background: var(--card-bg);
+            padding: 12px 25px;
+            border-radius: 25px;
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+
+        .skill:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 5px 15px rgba(0, 243, 255, 0.2);
+            background: rgba(0, 243, 255, 0.1);
+        }
+
+        .about-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            opacity: 0;
+            transform: translateX(50px);
+            animation: fadeInRight 1s ease 0.3s forwards;
+        }
+
+        @keyframes fadeInRight {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .avatar {
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .avatar::before {
+            content: '';
+            position: absolute;
+            width: 370px;
+            height: 370px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            z-index: -1;
+            filter: blur(30px);
+            opacity: 0.5;
+            animation: pulse 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulse {
+            from {
+                transform: scale(0.8);
+                opacity: 0.3;
+            }
+            to {
+                transform: scale(1.1);
+                opacity: 0.6;
+            }
+        }
+
+        .avatar i {
+            font-size: 9rem;
+            color: var(--dark);
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            animation: spin 10s linear infinite;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Section Projets */
+        .projects {
+            text-align: center;
+        }
+
+        .projects h2 {
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: var(--primary);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .project-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            backdrop-filter: blur(5px);
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 243, 255, 0.3);
+            border-color: var(--primary);
+        }
+
+        .project-image {
+            height: 200px;
+            background: linear-gradient(45deg, var(--secondary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .project-image i {
+            font-size: 4rem;
+            color: var(--light);
+        }
+
+        .project-content {
+            padding: 20px;
+        }
+
+        .project-content h3 {
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        /* Section Contact */
+        .contact {
+            text-align: center;
+        }
+
+        .contact h2 {
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: var(--primary);
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--primary);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            border-radius: 8px;
+            color: var(--light);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            color: var(--light);
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 243, 255, 0.3);
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            color: var(--dark);
+            transform: translateY(-5px);
+            box-shadow: var(--glow);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px;
+            border-top: 1px solid rgba(0, 243, 255, 0.2);
+            background: rgba(10, 10, 26, 0.8);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .about {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .about-image {
+                order: -1;
+                margin-bottom: 50px;
+            }
+            
+            .about h2::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            
+            .about p:hover {
+                transform: none;
+            }
+            
+            .skills {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            nav {
+                position: fixed;
+                top: 70px;
+                right: -100%;
+                width: 80%;
+                height: calc(100vh - 70px);
+                background: rgba(10, 10, 26, 0.95);
+                backdrop-filter: blur(10px);
+                transition: all 0.5s ease;
+                border-left: 1px solid rgba(0, 243, 255, 0.2);
+            }
+            
+            nav.active {
+                right: 0;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                padding: 50px 20px;
+            }
+            
+            nav ul li {
+                margin: 15px 0;
+            }
+            
+            section {
+                padding: 100px 20px;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.2rem;
+            }
+            
+            .avatar {
+                width: 280px;
+                height: 280px;
+            }
+            
+            .avatar::before {
+                width: 300px;
+                height: 300px;
+            }
+            
+            .about h2 {
+                font-size: 2.3rem;
+            }
+            
+            .about p {
+                font-size: 1rem;
+            }
+            
+            .skill {
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    <!-- Header -->
+    <header>
+        <div class="logo">Jimmy | Automation & Growth</div>
+        <div class="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#accueil">Accueil</a></li>
+                <li><a href="#apropos">À propos</a></li>
+                <li><a href="#projets">Projets</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <!-- Section Hero -->
+    <section id="accueil" class="hero">
+        <h1>Growth Hacker & Automation Specialist</h1>
+        <p>Je crée des automatismes et des agents IA pour propulser les entreprises vers une nouvelle dimension de performance digitale.<br>
+        Passionné par le hacking de croissance, le développement de solutions sur-mesure, et l’intégration des technologies les plus avancées.</p>
+        <a href="#projets" class="cta-button">Découvrir mes réalisations</a>
+    </section>
+
+    <!-- Section À propos -->
+    <section id="apropos" class="about">
+        <div class="about-content">
+            <h2>À propos de moi</h2>
+            <p>
+                Passionné par les nouvelles technologies et l’innovation digitale, je suis <b>Jimmy</b>, Growth Hacker, consultant technique et développeur spécialisé en automatisation et Intelligence Artificielle. 
+            </p>
+            <p>
+                Mon parcours atypique m’a permis d’allier expertise technique et vision business, du développement fullstack à la mise en place de stratégies performantes pour des entreprises de toutes tailles. Je conçois des workflows avancés et des bots qui automatisent la prospection, l’emailing, la gestion CRM, la collecte d’information et l’intégration d’API. 
+            </p>
+            <p>
+                ✦ <b>Ma mission : propulser la croissance de mes clients en transformant leurs process grâce à l’automatisation et à l’IA</b>. J’optimise le temps de travail et le ROI, en créant des solutions sur-mesure pour générer des leads, optimiser le marketing digital et fluidifier la vie d’entreprise.
+            </p>
+            <p>
+                Mon quotidien ? Scraper, connecter, automatiser, tester et améliorer des solutions qui font vraiment gagner du temps. J’interviens aussi bien en conseil qu’en développement opérationnel, sur des plateformes comme <b>n8n</b>, <b>Windmill</b>, <b>HubSpot</b>, <b>Stripe</b>, <b>OpenAI</b>, <b>Mistral</b>, et bien d’autres. 
+            </p>
+            <p>
+                En parallèle de mon alternance chez <b>Media Start</b> et de mon MsC à la Rocket School, je développe des projets pour des indépendants, startups et PME en France. J’aime aussi partager mes connaissances via des formations, des articles et des automatisations open source.
+            </p>
+            <p>
+                <b>Valeurs :</b> autonomie, transparence, esprit de débugging, learning mindset, sens de la performance, partage.  
+            </p>
+            <p>
+                <i>“Tout ce qui peut être automatisé, doit l’être — pour que l’humain puisse se consacrer à l’essentiel !”</i>
+            </p>
+            <div class="skills">
+                <div class="skill">Automation (n8n, Windmill)</div>
+                <div class="skill">Développement Python, JavaScript, TypeScript</div>
+                <div class="skill">Agents IA et Bots</div>
+                <div class="skill">Scraping & Data Mining</div>
+                <div class="skill">Emailing & Lead Gen</div>
+                <div class="skill">Intégration API</div>
+                <div class="skill">SEO & Web Dev</div>
+                <div class="skill">Growth Hacking</div>
+                <div class="skill">Consulting</div>
+                <div class="skill">Cloud & SaaS</div>
+            </div>
+        </div>
+        <div class="about-image">
+            <div class="avatar">
+                <i class="fas fa-code"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Projets -->
+    <section id="projets" class="projects">
+        <h2>Mes Projets</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-image">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="project-content">
+                    <h3>Automatisation Emailing & Lead Gen</h3>
+                    <p>Solutions pour automatiser la prospection : campagnes email multi-domaines, scraping d’emails, scoring et intégration CRM (HubSpot, Emelia, n8n).</p>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-image">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <div class="project-content">
+                    <h3>Bots IA & Agents Vocaux</h3>
+                    <p>Bots Telegram, assistants vocaux, intégration API OpenAI/Mistral, premium subscriptions et systèmes de paiement automatisés (Stripe).</p>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-image">
+                    <i class="fas fa-network-wired"></i>
+                </div>
+                <div class="project-content">
+                    <h3>Développement Web & SEO</h3>
+                    <p>Création de sites vitrines, optimisation SEO, automatisation du reporting, intégration d’API externes et outils de croissance digitale.</p>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-image">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <div class="project-content">
+                    <h3>Workflows No-Code / Low-Code</h3>
+                    <p>Conception de flux automatisés (n8n, Windmill), extraction/documents vectorisés, data pipelines et connecteurs personnalisés pour la productivité.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Contact -->
+    <section id="contact" class="contact">
+        <h2>Travaillons ensemble</h2>
+        <form class="contact-form">
+            <div class="form-group">
+                <label for="name">Nom</label>
+                <input type="text" id="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" required>
+            </div>
+            <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="cta-button">Envoyer</button>
+        </form>
+        <div class="social-links">
+            <a href="https://github.com/Jimmyjoe13?tab=repositories" target="_blank"><i class="fab fa-github"></i></a>
+            <a href="https://linkedin.com/in/jimmy-gay/" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="mailto:jimmygay13180@gmail.com"><i class="fas fa-envelope"></i></a>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Portfolio Jimmy Gay. Tous droits réservés.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Initialisation des particules
+        particlesJS('particles-js', {
+            particles: {
+                number: {
+                    value: 80,
+                    density: {
+                        enable: true,
+                        value_area: 800
+                    }
+                },
+                color: {
+                    value: ['#00f3ff', '#7700ff', '#ff00c8']
+                },
+                shape: {
+                    type: 'circle',
+                    stroke: {
+                        width: 0,
+                        color: '#000000'
+                    }
+                },
+                opacity: {
+                    value: 0.5,
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 1,
+                        opacity_min: 0.1,
+                        sync: false
+                    }
+                },
+                size: {
+                    value: 3,
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 2,
+                        size_min: 0.1,
+                        sync: false
+                    }
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: '#00f3ff',
+                    opacity: 0.2,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: 'none',
+                    random: true,
+                    straight: false,
+                    out_mode: 'out',
+                    bounce: false,
+                    attract: {
+                        enable: false,
+                        rotateX: 600,
+                        rotateY: 1200
+                    }
+                }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: {
+                        enable: true,
+                        mode: 'grab'
+                    },
+                    onclick: {
+                        enable: true,
+                        mode: 'push'
+                    },
+                    resize: true
+                },
+                modes: {
+                    grab: {
+                        distance: 140,
+                        line_linked: {
+                            opacity: 0.5
+                        }
+                    },
+                    push: {
+                        particles_nb: 4
+                    }
+                }
+            },
+            retina_detect: true
+        });
+
+        // Menu mobile
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            document.querySelector('nav').classList.toggle('active');
+        });
+
+        // Fermer le menu en cliquant sur un lien
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.querySelector('nav').classList.remove('active');
+            });
+        });
+
+        // Animation au défilement
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.style.background = 'rgba(10, 10, 26, 0.95)';
+            } else {
+                header.style.background = 'rgba(10, 10, 26, 0.8)';
+            }
+        });
+
+        // Animation des cartes de projet
+        const projectCards = document.querySelectorAll('.project-card');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        projectCards.forEach(card => {
+            card.style.opacity = 0;
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
